@@ -2,8 +2,6 @@ package tracker;
 
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Menu {
@@ -21,6 +19,12 @@ public class Menu {
                 addStudents();
             } else if (input.equalsIgnoreCase("back")) {
                 System.out.println("Enter 'exit' to exit the program");
+            } else if (input.equalsIgnoreCase("list")) {
+                Data.printListOfStudents();
+            } else if (input.equalsIgnoreCase("add points")) {
+                Data.addPoints();
+            } else if (input.equalsIgnoreCase("find")) {
+                Data.find();
             } else {
                 System.out.println("Error: unknown command!");
             }
@@ -46,49 +50,17 @@ public class Menu {
             String lastName = Arrays.stream(words, 1, words.length - 1)
                     .collect(Collectors.joining(""));
             try {
-                isValid(firstName, "first name.");
-                isValid(lastName, "last name.");
-                correctEmail(email);
+                Exceptions.isValid(firstName, "first name.");
+                Exceptions.isValid(lastName, "last name.");
+                Exceptions.correctEmail(email);
+                Exceptions.uniqueEmail(email);
             } catch (Exception e) {
-                System.out.println("Incorrect " + e.getMessage());
+                System.out.println(e.getMessage());
                 continue;
             }
+            Data.addStudent(new Student(firstName, lastName, email));
             System.out.println("The student has been added.");
             countAddStudents++;
-        }
-    }
-
-    public void correctEmail(String email) throws IllegalArgumentException {
-        String regex = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches() || !email.contains(".")) {
-            throw new IllegalArgumentException("email.");
-        }
-    }
-
-    public void isValid(String name, String type) {
-        // Check for minimum length of name and surname
-        if (name.length() < 2) {
-            throw new IllegalArgumentException(type);
-        }
-
-        // Check for hyphens and apostrophes as first or last characters
-        if (name.startsWith("-") || name.startsWith("'") ||
-                name.endsWith("-") || name.endsWith("'")) {
-            throw new IllegalArgumentException(type);
-        }
-
-        // Check for adjacent hyphens or apostrophes
-        if (name.contains("--") || name.contains("''") ||
-                name.contains("-'") || name.contains("'-")) {
-            throw new IllegalArgumentException(type);
-        }
-
-        // Check for valid characters
-        String pattern = "^[A-Za-z'-]+$";
-        if (!name.matches(pattern)) {
-            throw new IllegalArgumentException(type);
         }
     }
 
