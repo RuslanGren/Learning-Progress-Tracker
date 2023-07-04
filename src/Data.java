@@ -5,7 +5,7 @@ import java.util.*;
 public class Data {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static final HashMap<Integer, Student> map = new HashMap<>();
+    public static final HashMap<Integer, Student> studentMap = new HashMap<>();
 
     public static Set<String> emails = new HashSet<>();
 
@@ -13,17 +13,17 @@ public class Data {
 
     public static void addStudent(Student student) {
         id++;
-        map.put(id, student);
+        studentMap.put(id, student);
         emails.add(student.getEmail());
     }
 
     public static void printListOfStudents() {
-        if (map.isEmpty()) {
+        if (studentMap.isEmpty()) {
             System.out.println("No students found.");
             return;
         }
         System.out.println("Students:");
-        map.keySet().forEach(System.out::println);
+        studentMap.keySet().forEach(System.out::println);
     }
 
     public static void find() {
@@ -37,7 +37,7 @@ public class Data {
                 continue;
             }
             System.out.print(input + " points: ");
-            map.get(Integer.parseInt(input)).printPoints();
+            studentMap.get(Integer.parseInt(input)).printPoints();
         }
     }
 
@@ -56,6 +56,7 @@ public class Data {
                 if (!Exceptions.validId(args[0])) {
                     continue;
                 }
+
                 int[] points = Arrays.stream(args).mapToInt(Integer::parseInt)
                         .peek(num -> {
                             if (num < 0) {
@@ -63,8 +64,23 @@ public class Data {
                             }
                         })
                         .toArray();
-                map.get(points[0]).updatePoints(points[1], points[2], points[3], points[4]);
+
+                int studentId = points[0];
+                Student student = studentMap.get(studentId);
+
+                for (int i = 0; i < Course.COURSES.length; i++) {
+                    if (points[i + 1] != 0) {
+                        Course.COURSES[i].addSubmissions();
+                        Course.COURSES[i].addPoints(points[i + 1]);
+                        if (student.getPoints(Course.COURSES[i]) == 0) {
+                            Course.COURSES[i].addEnrolledStudent();
+                        }
+                    }
+                }
+
+                student.updatePoints(points[1], points[2], points[3], points[4]);
                 System.out.println("Points updated.");
+
             } catch (IllegalArgumentException e) {
                 System.out.println("Incorrect points format.");
             }

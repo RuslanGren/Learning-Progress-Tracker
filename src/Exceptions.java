@@ -46,7 +46,7 @@ public class Exceptions {
 
     public static boolean validId(String id) {
         try {
-            Data.map.get(Integer.parseInt(id));
+            Data.studentMap.get(Integer.parseInt(id));
         } catch (IllegalArgumentException e) {
             System.out.println("No student is found for id=" + id + ".");
             return false;

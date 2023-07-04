@@ -7,13 +7,13 @@ public class Student {
 
     private String email;
 
-    private int java = 0;
+    private int pointsJava = 0;
 
-    private int dsa = 0;
+    private int pointsDSA = 0;
 
-    private int databases = 0;
+    private int pointsDatabases = 0;
 
-    private int spring = 0;
+    private int pointsSpring = 0;
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -21,16 +21,34 @@ public class Student {
         this.email = email;
     }
 
-    public void updatePoints(int java, int dsa, int databases, int spring) {
-        this.java += java;
-        this.dsa += dsa;
-        this.databases += databases;
-        this.spring += spring;
+    public void updatePoints(int pointsJava, int pointsDSA, int pointsDatabases, int pointsSpring) {
+        this.pointsJava += pointsJava;
+        this.pointsDSA += pointsDSA;
+        this.pointsDatabases += pointsDatabases;
+        this.pointsSpring += pointsSpring;
     }
 
     public void printPoints() {
-        System.out.printf("Java=%d; DSA=%d; Databases=%d; Spring=%d", java, dsa, databases, spring);
+        System.out.printf("Java=%d; DSA=%d; Databases=%d; Spring=%d", pointsJava, pointsDSA, pointsDatabases, pointsSpring);
         System.out.println();
+    }
+
+    public int getPoints(Course course) {
+        switch (course) {
+            case JAVA -> {
+                return getPointsJava();
+            }
+            case DSA -> {
+                return getPointsDSA();
+            }
+            case DATABASES -> {
+                return getPointsDatabases();
+            }
+            case SPRING -> {
+                return getPointsSpring();
+            }
+        }
+        return 0;
     }
 
     public String getFirstName() {
@@ -57,4 +75,35 @@ public class Student {
         this.email = email;
     }
 
+    public int getPointsJava() {
+        return pointsJava;
+    }
+
+    public void setPointsJava(int pointsJava) {
+        this.pointsJava = pointsJava;
+    }
+
+    public int getPointsDSA() {
+        return pointsDSA;
+    }
+
+    public void setPointsDSA(int pointsDSA) {
+        this.pointsDSA = pointsDSA;
+    }
+
+    public int getPointsDatabases() {
+        return pointsDatabases;
+    }
+
+    public void setPointsDatabases(int pointsDatabases) {
+        this.pointsDatabases = pointsDatabases;
+    }
+
+    public int getPointsSpring() {
+        return pointsSpring;
+    }
+
+    public void setPointsSpring(int pointsSpring) {
+        this.pointsSpring = pointsSpring;
+    }
 }

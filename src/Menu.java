@@ -25,6 +25,8 @@ public class Menu {
                 Data.addPoints();
             } else if (input.equalsIgnoreCase("find")) {
                 Data.find();
+            } else if (input.equalsIgnoreCase("statistics")) {
+                Statistics.menu();
             } else {
                 System.out.println("Error: unknown command!");
             }
