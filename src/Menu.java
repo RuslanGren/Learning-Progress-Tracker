@@ -1,7 +1,6 @@
 package tracker;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Menu {
@@ -27,10 +26,37 @@ public class Menu {
                 Data.find();
             } else if (input.equalsIgnoreCase("statistics")) {
                 Statistics.menu();
-            } else {
+            } else if (input.equalsIgnoreCase("notify")) {
+                Data.checkStudents();
+                notifyStudents();
+             } else {
                 System.out.println("Error: unknown command!");
             }
         }
+    }
+
+    public void notifyStudents() {
+        int count = 0;
+        for (Map.Entry<Integer, Student> entry : Data.studentMap.entrySet()) {
+            Student student = entry.getValue();
+            boolean atLeastOnceCompletedCourse = false;
+
+            while (!student.completedCourses.empty()) {
+                Course course = student.completedCourses.pop();
+                System.out.println("To: " + student.getEmail());
+                System.out.println("Re: Your Learning Progress");
+                System.out.println("Hello, " + student.getFullName()
+                        + "! You have accomplished our "
+                        + course.getName()
+                        + " course!");
+                atLeastOnceCompletedCourse = true;
+            }
+
+            if (atLeastOnceCompletedCourse) {
+                count++;
+            }
+        }
+        System.out.println("Total " + count + " students have been notified.");
     }
 
     public void addStudents() {

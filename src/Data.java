@@ -11,6 +11,20 @@ public class Data {
 
     private static int id = 9999;
 
+    public static void checkStudents() {
+        for (Student student : studentMap.values()) {
+            Iterator<Course> iterator = student.notCompletedCourses.iterator();
+            while (iterator.hasNext()) {
+                Course course = iterator.next();
+                if (student.getPoints(course) >= course.getMAX_POINTS()) {
+                    student.completedCourses.push(course);
+                    iterator.remove();
+                }
+            }
+        }
+
+    }
+
     public static void addStudent(Student student) {
         id++;
         studentMap.put(id, student);

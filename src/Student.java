@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.*;
+
 public class Student {
     private String firstName;
 
@@ -15,10 +17,18 @@ public class Student {
 
     private int pointsSpring = 0;
 
+    public Stack<Course> completedCourses = new Stack<>();
+
+    public HashSet<Course> notCompletedCourses = new HashSet<>(Arrays.asList(Course.COURSES));
+
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public void removeNotCompletedCourse(Course course) {
+        notCompletedCourses.remove(course);
     }
 
     public void updatePoints(int pointsJava, int pointsDSA, int pointsDatabases, int pointsSpring) {
@@ -49,6 +59,10 @@ public class Student {
             }
         }
         return 0;
+    }
+
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
     }
 
     public String getFirstName() {
